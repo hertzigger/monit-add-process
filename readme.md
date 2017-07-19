@@ -8,6 +8,11 @@ This is an ansible project built to allow you to add new processes to an already
 
 None
 
+## Supported OS
+
+centos
+
+
 ## Example Usage
 
 ### Playbook
