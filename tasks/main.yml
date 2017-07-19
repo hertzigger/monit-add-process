@@ -1,0 +1,6 @@
+- name: Adding monit script for {{ monit_add_process_name }}
+  template:
+    src: monit
+    dest: /etc/monit.d/{{ monit_add_process_name }}
+    mode: 0700
+  notify: reload monit

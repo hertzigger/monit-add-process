@@ -1,0 +1,56 @@
+check {{ monit_add_process_type }} {{ monit_add_process_name }}{% if monit_add_process_with is defined %} with {{ monit_add_process_with }}{% endif %}
+{% if monit_add_process_start_program is defined %}
+    {% if monit_add_process_start_program.command is defined %}
+START PROGRAM  "{{ monit_add_process_start_program.command }}"
+    {% endif %}
+    {% if monit_add_process_start_program.uid is defined %}
+    AS UID {{ monit_add_process_start_program.uid }}
+    {% endif %}
+    {% if monit_add_process_start_program.gid is defined %}
+    AS GID {{ monit_add_process_start_program.gid }}
+    {% endif %}
+    {% if monit_add_process_start_program.timeout is defined %}
+    AS TIMEOUT {{ monit_add_process_start_program.timeout }} SECONDS
+    {% endif %}
+{% endif %}
+{% if monit_add_process_stop_program is defined %}
+    {% if monit_add_process_stop_program.command is defined %}
+STOP PROGRAM  "{{ monit_add_process_stop_program.command }}"
+    {% endif %}
+    {% if monit_add_process_stop_program.uid is defined %}
+    AS UID {{ monit_add_process_stop_program.uid }}
+    {% endif %}
+    {% if monit_add_process_stop_program.gid is defined %}
+    AS GID {{ monit_add_process_stop_program.gid }}
+    {% endif %}
+    {% if monit_add_process_stop_program.timeout is defined %}
+    AS TIMEOUT {{ monit_add_process_stop_program.timeout }} SECONDS
+    {% endif %}
+{% endif %}
+{% if monit_add_process_restart_program is defined %}
+    {% if monit_add_process_restart_program.command is defined %}
+RESTART PROGRAM  "{{ monit_add_process_restart_program.command }}"
+    {% endif %}
+    {% if monit_add_process_restart_program.uid is defined %}
+    AS UID {{ monit_add_process_restart_program.uid }}
+    {% endif %}
+    {% if monit_add_process_restart_program.gid is defined %}
+    AS GID {{ monit_add_process_restart_program.gid }}
+    {% endif %}
+    {% if monit_add_process_restart_program.timeout is defined %}
+    AS TIMEOUT {{ monit_add_process_restart_program.timeout }} SECONDS
+    {% endif %}
+{% endif %}
+{% if monit_add_process_check_options is defined %}
+    {% for check_options in monit_add_process_check_options %}
+        {% if check_options.test is defined and check_options.test is defined %}
+    IF {{ check_options.test }}
+        {% if check_options.checks is defined %}
+            {% for check in check_options.checks %}
+            {{ check }}
+            {% endfor %}
+        {% endif %}
+    THEN {{ check_options.action }} {% if check_options.succeeded is defined %} ELSE IF SUCCEEDED {{ check_options.succeeded }}{% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,36 @@
+---
+monit_add_process_name: 'default'
+monit_add_process_type: 'process'
+monit_add_process_with: 'pidfile /var/run/sshd.pid'
+#monit_add_process_start_program:
+#  command: '/usr/bin/systemctl start sshd.service'
+#  uid:
+#  gid:
+#  timeout:
+#monit_add_process_stop_program:
+#  command: '/usr/bin/systemctl stop sshd.service'
+#  uid:
+#  gid:
+#  timeout:
+#monit_add_process_stop_restart:
+#  command: '/usr/bin/systemctl stop sshd.service'
+#  uid:
+#  gid:
+#  timeout:
+# tests:
+# DOES [NOT] EXIST
+# <resource> <operator> <value> - ie CPU > 90%
+
+# actions - alert, restart, start, stop, exec
+monit_add_process_check_options:
+  - test: 'FAILED'
+    action: 'RESTART'
+    succeeded:
+    for:
+    checks:
+      - 'port 22 protocol ssh'
+  - test: 'DOES NOT EXIST'
+    action: 'RESTART'
+    succeeded:
+    for:
+    checks:
